@@ -120,24 +120,28 @@ export default function RegisterPage() {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               I am a...
             </label>
-            <div className="flex gap-4">
-              <label className="flex items-center">
+            <div className="flex gap-6">
+              <label className="flex items-center cursor-pointer group">
                 <input
                   {...register('role')}
                   type="radio"
                   value="student"
-                  className="mr-2"
+                  className="mr-2 w-4 h-4 text-primary-600 focus:ring-primary-500"
                 />
-                <span>Student</span>
+                <span className="text-black font-semibold text-base group-hover:text-primary-600 transition">
+                  Student
+                </span>
               </label>
-              <label className="flex items-center">
+              <label className="flex items-center cursor-pointer group">
                 <input
                   {...register('role')}
                   type="radio"
                   value="mentor"
-                  className="mr-2"
+                  className="mr-2 w-4 h-4 text-primary-600 focus:ring-primary-500"
                 />
-                <span>Mentor</span>
+                <span className="text-black font-semibold text-base group-hover:text-primary-600 transition">
+                  Mentor
+                </span>
               </label>
             </div>
             {errors.role && (

@@ -68,6 +68,7 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   MENTOR_DASHBOARD: '/dashboard/mentor',
   STUDENT_DASHBOARD: '/dashboard/student',
+  STUDENT_ENROLLMENTS: '/dashboard/student/enrollments',
   CHALLENGES: '/challenges',
   CHALLENGE_DETAIL: (id: string) => `/challenges/${id}`,
   CREATE_CHALLENGE: '/challenges/create',

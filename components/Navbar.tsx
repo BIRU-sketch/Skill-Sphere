@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useUser } from '@/hooks/useUser';
 import { signOutUser } from '@/lib/firebase/auth-service';
 import { toast } from 'react-toastify';
-import { FiUser, FiLogOut, FiHome, FiBook, FiAward, FiPlus, FiList, FiUserCheck } from 'react-icons/fi';
+import { FiUser, FiLogOut, FiHome, FiBook, FiAward, FiPlus, FiList, FiUserCheck, FiClipboard } from 'react-icons/fi';
 import { ROUTES } from '@/lib/constants';
 import { useState } from 'react';
 
@@ -64,7 +64,15 @@ export default function Navbar() {
                   className="flex items-center gap-2 text-gray-700 hover:text-primary-600 transition"
                 >
                   <FiBook className="w-5 h-5" />
-                  <span>Browse Challenges</span>
+                  <span>Browse</span>
+                </Link>
+
+                <Link
+                  href={ROUTES.STUDENT_ENROLLMENTS}
+                  className="flex items-center gap-2 text-gray-700 hover:text-primary-600 transition"
+                >
+                  <FiClipboard className="w-5 h-5" />
+                  <span>My Enrollments</span>
                 </Link>
 
                 <Link
@@ -72,7 +80,7 @@ export default function Navbar() {
                   className="flex items-center gap-2 text-gray-700 hover:text-primary-600 transition"
                 >
                   <FiAward className="w-5 h-5" />
-                  <span>My Certificates</span>
+                  <span>Certificates</span>
                 </Link>
               </>
             )}
@@ -145,6 +153,13 @@ export default function Navbar() {
                           onClick={() => setShowUserMenu(false)}
                         >
                           Browse Challenges
+                        </Link>
+                        <Link
+                          href={ROUTES.STUDENT_ENROLLMENTS}
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                          onClick={() => setShowUserMenu(false)}
+                        >
+                          My Enrollments
                         </Link>
                         <Link
                           href={ROUTES.CERTIFICATES}

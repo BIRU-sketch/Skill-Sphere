@@ -75,10 +75,10 @@ export default function StudentDashboardPage() {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">Active Challenges</h2>
           <Link
-            href={ROUTES.CHALLENGES}
+            href={ROUTES.STUDENT_ENROLLMENTS}
             className="text-primary-600 hover:text-primary-700 font-medium"
           >
-            Browse More →
+            View All Enrollments →
           </Link>
         </div>
         {activeEnrollments.length > 0 ? (

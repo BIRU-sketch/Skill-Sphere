@@ -152,24 +152,113 @@ export default function StudentApplicationPage() {
       {/* Actions */}
       {enrollment.status === 'enrolled' && (
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4">Review Application</h2>
-          <div className="flex gap-4">
-            <button
-              onClick={() => handleStatusUpdate('in-progress')}
-              disabled={updating}
-              className="flex-1 flex items-center justify-center gap-2 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition disabled:opacity-50"
-            >
-              <FiCheckCircle className="w-5 h-5" />
-              {updating ? 'Updating...' : 'Approve & Start'}
-            </button>
-            <button
-              onClick={() => handleStatusUpdate('rejected')}
-              disabled={updating}
-              className="flex-1 flex items-center justify-center gap-2 bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
-            >
-              <FiXCircle className="w-5 h-5" />
-              {updating ? 'Updating...' : 'Reject Application'}
-            </button>
+          <h2 className="text-xl font-semibold mb-4">📋 Review Application</h2>
+          <p className="text-sm text-gray-600 mb-4">
+            Review the student's application and decide whether to accept or reject their enrollment.
+          </p>
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Approve */}
+            <div className="border-2 border-green-200 rounded-lg p-4 hover:border-green-400 transition">
+              <h3 className="font-semibold text-green-700 mb-2 flex items-center gap-2">
+                <FiCheckCircle className="w-5 h-5" />
+                Accept Application
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                The student will be notified and can start working on the challenge.
+              </p>
+              <button
+                onClick={() => {
+                  if (confirm(`Accept ${enrollment.studentName}'s application?\n\nThey will be able to start working on the challenge immediately.`)) {
+                    handleStatusUpdate('in-progress');
+                  }
+                }}
+                disabled={updating}
+                className="w-full flex items-center justify-center gap-2 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition disabled:opacity-50"
+              >
+                <FiCheckCircle className="w-5 h-5" />
+                {updating ? 'Processing...' : 'Accept Student'}
+              </button>
+            </div>
+
+            {/* Reject */}
+            <div className="border-2 border-red-200 rounded-lg p-4 hover:border-red-400 transition">
+              <h3 className="font-semibold text-red-700 mb-2 flex items-center gap-2">
+                <FiXCircle className="w-5 h-5" />
+                Reject Application
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                The student will be notified that their application was not accepted.
+              </p>
+              <button
+                onClick={() => {
+                  if (confirm(`Reject ${enrollment.studentName}'s application?\n\nThis action cannot be undone. The student can apply again if they wish.`)) {
+                    handleStatusUpdate('rejected');
+                  }
+                }}
+                disabled={updating}
+                className="w-full flex items-center justify-center gap-2 bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+              >
+                <FiXCircle className="w-5 h-5" />
+                {updating ? 'Processing...' : 'Reject Student'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Status Message for Other States */}
+      {enrollment.status === 'in-progress' && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+          <div className="flex items-center gap-3">
+            <FiCheckCircle className="w-6 h-6 text-green-600" />
+            <div>
+              <h3 className="font-semibold text-green-900">Application Accepted</h3>
+              <p className="text-sm text-green-700 mt-1">
+                This student is currently working on the challenge.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {enrollment.status === 'rejected' && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+          <div className="flex items-center gap-3">
+            <FiXCircle className="w-6 h-6 text-red-600" />
+            <div>
+              <h3 className="font-semibold text-red-900">Application Rejected</h3>
+              <p className="text-sm text-red-700 mt-1">
+                This application was not accepted.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {enrollment.status === 'submitted' && (
+        <div className="bg-orange-50 border border-orange-200 rounded-lg p-6">
+          <div className="flex items-center gap-3">
+            <FiCheckCircle className="w-6 h-6 text-orange-600" />
+            <div>
+              <h3 className="font-semibold text-orange-900">Work Submitted</h3>
+              <p className="text-sm text-orange-700 mt-1">
+                The student has submitted their completed work for review.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {enrollment.status === 'approved' && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+          <div className="flex items-center gap-3">
+            <FiCheckCircle className="w-6 h-6 text-green-600" />
+            <div>
+              <h3 className="font-semibold text-green-900">Challenge Completed</h3>
+              <p className="text-sm text-green-700 mt-1">
+                This student has successfully completed the challenge and earned their certificate.
+              </p>
+            </div>
           </div>
         </div>
       )}

@@ -77,6 +77,15 @@ export const ROUTES = {
   PORTFOLIO: (username: string) => `/portfolio/${username}`,
   PROFILE: '/profile',
   SETTINGS: '/settings',
+  // CTF Routes
+  CTF: '/ctf',
+  CTF_EVENTS: '/ctf/events',
+  CTF_EVENT_DETAIL: (id: string) => `/ctf/events/${id}`,
+  CTF_CREATE_EVENT: '/ctf/events/create',
+  CTF_ADMIN: '/ctf/admin',
+  CTF_LEADERBOARD: (eventId: string) => `/ctf/events/${eventId}/leaderboard`,
+  CTF_MY_TEAM: (eventId: string) => `/ctf/events/${eventId}/team`,
+  CTF_WRITEUPS: (eventId: string) => `/ctf/events/${eventId}/writeups`,
 } as const;
 
 // Pagination
@@ -91,4 +100,99 @@ export const ACCEPTED_FILE_TYPES = [
   'application/pdf',
   'application/zip',
 ] as const;
+
+// ============================================
+// CTF (Capture The Flag) Constants
+// ============================================
+
+// CTF Challenge Categories
+export const CTF_CATEGORIES = [
+  { value: 'web', label: 'Web Exploitation', icon: '🌐', color: 'blue' },
+  { value: 'crypto', label: 'Cryptography', icon: '🔐', color: 'purple' },
+  { value: 'forensics', label: 'Forensics', icon: '🔍', color: 'green' },
+  { value: 'reverse', label: 'Reverse Engineering', icon: '⚙️', color: 'orange' },
+  { value: 'pwn', label: 'Binary Exploitation', icon: '💥', color: 'red' },
+  { value: 'osint', label: 'OSINT', icon: '🕵️', color: 'cyan' },
+  { value: 'misc', label: 'Miscellaneous', icon: '🎯', color: 'gray' },
+] as const;
+
+// CTF Difficulty Levels
+export const CTF_DIFFICULTIES = [
+  { value: 'easy', label: 'Easy', color: 'green', points: '50-150' },
+  { value: 'medium', label: 'Medium', color: 'yellow', points: '150-350' },
+  { value: 'hard', label: 'Hard', color: 'red', points: '350-500' },
+] as const;
+
+// CTF Event Types
+export const CTF_EVENT_TYPES = [
+  { value: 'public', label: 'Public', description: 'Anyone can join' },
+  { value: 'private', label: 'Private', description: 'Invitation only' },
+] as const;
+
+// CTF Event Modes
+export const CTF_EVENT_MODES = [
+  { value: 'online', label: 'Online', icon: '💻' },
+  { value: 'offline', label: 'Offline', icon: '🏢' },
+  { value: 'hybrid', label: 'Hybrid', icon: '🌐' },
+] as const;
+
+// CTF Badges
+export const CTF_BADGES = {
+  FIRST_BLOOD: {
+    id: 'first_blood',
+    name: 'First Blood',
+    description: 'First to solve a challenge',
+    icon: '🩸',
+  },
+  CRYPTO_MASTER: {
+    id: 'crypto_master',
+    name: 'Crypto Master',
+    description: 'Solved 5 crypto challenges',
+    icon: '🔐',
+  },
+  WEB_WARRIOR: {
+    id: 'web_warrior',
+    name: 'Web Warrior',
+    description: 'Solved 5 web challenges',
+    icon: '🌐',
+  },
+  FORENSICS_EXPERT: {
+    id: 'forensics_expert',
+    name: 'Forensics Expert',
+    description: 'Solved 5 forensics challenges',
+    icon: '🔍',
+  },
+  SPEEDRUN: {
+    id: 'speedrun',
+    name: 'Speedrunner',
+    description: 'Solved 3 challenges in under 1 hour',
+    icon: '⚡',
+  },
+  UNSTOPPABLE: {
+    id: 'unstoppable',
+    name: 'Unstoppable',
+    description: '7 day solving streak',
+    icon: '🔥',
+  },
+} as const;
+
+// CTF Rate Limiting
+export const CTF_RATE_LIMITS = {
+  FLAG_SUBMISSION: {
+    maxAttempts: 5,
+    windowMs: 60000, // 1 minute
+  },
+  TEAM_CREATION: {
+    maxAttempts: 3,
+    windowMs: 3600000, // 1 hour
+  },
+} as const;
+
+// CTF Scoring
+export const CTF_SCORING = {
+  DYNAMIC_DECAY_RATE: 0.1, // 10% per solve
+  MIN_POINTS_PERCENTAGE: 0.2, // Minimum 20% of base points
+  XP_PER_SOLVE: 100,
+  HINT_PENALTY_PERCENTAGE: 0.2, // 20% points reduction per hint
+} as const;
 

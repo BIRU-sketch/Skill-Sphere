@@ -84,7 +84,7 @@ export default function ProfilePage() {
             <input
               {...register('displayName')}
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900"
             />
             {errors.displayName && (
               <p className="mt-1 text-sm text-red-600">{errors.displayName.message}</p>
@@ -98,7 +98,7 @@ export default function ProfilePage() {
             <textarea
               {...register('bio')}
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900"
               placeholder="Tell us about yourself..."
             />
             {errors.bio && (

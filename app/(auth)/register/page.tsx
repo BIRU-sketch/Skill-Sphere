@@ -63,7 +63,7 @@ export default function RegisterPage() {
             <input
               {...register('displayName')}
               type="text"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 text-gray-900"
               placeholder="John Doe"
             />
             {errors.displayName && (
@@ -78,7 +78,7 @@ export default function RegisterPage() {
             <input
               {...register('email')}
               type="email"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 text-gray-900"
               placeholder="you@example.com"
             />
             {errors.email && (
@@ -93,7 +93,7 @@ export default function RegisterPage() {
             <input
               {...register('password')}
               type="password"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 text-gray-900"
               placeholder="••••••••"
             />
             {errors.password && (
@@ -108,7 +108,7 @@ export default function RegisterPage() {
             <input
               {...register('confirmPassword')}
               type="password"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 text-gray-900"
               placeholder="••••••••"
             />
             {errors.confirmPassword && (

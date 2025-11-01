@@ -86,7 +86,7 @@ export default function CreateChallengePage() {
             <input
               {...register('title')}
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900"
               placeholder="e.g., Build a Modern Portfolio Website"
             />
             {errors.title && (
@@ -101,7 +101,7 @@ export default function CreateChallengePage() {
             <textarea
               {...register('description')}
               rows={5}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900"
               placeholder="Detailed description of the challenge..."
             />
             {errors.description && (
@@ -116,7 +116,7 @@ export default function CreateChallengePage() {
               </label>
               <select
                 {...register('category')}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900"
               >
                 <option value="">Select category</option>
                 {CHALLENGE_CATEGORIES.map(category => (
@@ -134,7 +134,7 @@ export default function CreateChallengePage() {
               </label>
               <select
                 {...register('difficulty')}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900"
               >
                 <option value="">Select difficulty</option>
                 {CHALLENGE_DIFFICULTIES.map(diff => (
@@ -161,7 +161,7 @@ export default function CreateChallengePage() {
                     newReqs[index] = e.target.value;
                     setRequirements(newReqs);
                   }}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900"
                   placeholder="e.g., Knowledge of HTML, CSS, JavaScript"
                 />
                 {requirements.length > 1 && (
@@ -198,7 +198,7 @@ export default function CreateChallengePage() {
                     newOutcomes[index] = e.target.value;
                     setLearningOutcomes(newOutcomes);
                   }}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900"
                   placeholder="e.g., Master responsive web design"
                 />
                 {learningOutcomes.length > 1 && (

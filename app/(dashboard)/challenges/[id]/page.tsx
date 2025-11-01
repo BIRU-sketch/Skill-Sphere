@@ -9,6 +9,7 @@ import { enrollInChallenge } from '@/lib/firebase/enrollment-service';
 import { toast } from 'react-toastify';
 import { FiClock, FiUser, FiAward, FiCheckCircle } from 'react-icons/fi';
 import { formatDate } from '@/lib/utils/date';
+import EnrollmentApplicationForm from '@/components/EnrollmentApplicationForm';
 
 export default function ChallengeDetailPage() {
   const params = useParams();
@@ -21,8 +22,13 @@ export default function ChallengeDetailPage() {
     challengeId
   );
   const [enrolling, setEnrolling] = useState(false);
+  const [showApplicationForm, setShowApplicationForm] = useState(false);
 
-  const handleEnroll = async () => {
+  const handleEnrollClick = () => {
+    setShowApplicationForm(true);
+  };
+
+  const handleApplicationSubmit = async (applicationData: any) => {
     if (!user || !challenge) return;
 
     try {
@@ -31,12 +37,15 @@ export default function ChallengeDetailPage() {
         challenge.id,
         challenge.title,
         user.id,
-        user.displayName
+        user.displayName,
+        user.email,
+        applicationData
       );
-      toast.success('Successfully enrolled in challenge!');
+      toast.success('Application submitted successfully! The mentor will review your enrollment.');
+      setShowApplicationForm(false);
       router.refresh();
     } catch (error: any) {
-      toast.error(error.message || 'Failed to enroll');
+      toast.error(error.message || 'Failed to submit application');
     } finally {
       setEnrolling(false);
     }
@@ -95,16 +104,25 @@ export default function ChallengeDetailPage() {
               </div>
             ) : (
               <button
-                onClick={handleEnroll}
-                disabled={enrolling}
-                className="bg-primary-600 text-white px-8 py-3 rounded-lg hover:bg-primary-700 transition disabled:opacity-50"
+                onClick={handleEnrollClick}
+                className="bg-primary-600 text-white px-8 py-3 rounded-lg hover:bg-primary-700 transition"
               >
-                {enrolling ? 'Enrolling...' : 'Enroll in Challenge'}
+                Apply to Challenge
               </button>
             )}
           </div>
         )}
       </div>
+
+      {/* Application Form Modal */}
+      {showApplicationForm && challenge && (
+        <EnrollmentApplicationForm
+          challengeTitle={challenge.title}
+          onSubmit={handleApplicationSubmit}
+          onCancel={() => setShowApplicationForm(false)}
+          isSubmitting={enrolling}
+        />
+      )}
 
       {/* Description */}
       <div className="bg-white rounded-lg shadow p-8">

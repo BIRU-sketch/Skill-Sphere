@@ -71,7 +71,7 @@ export default function MentorDashboardPage() {
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <Link
-                      href={ROUTES.CHALLENGE_DETAIL(challenge.id)}
+                      href={`/dashboard/mentor/challenges/${challenge.id}`}
                       className="text-xl font-medium text-gray-900 hover:text-primary-600"
                     >
                       {challenge.title}
@@ -91,12 +91,20 @@ export default function MentorDashboardPage() {
                       </span>
                     </div>
                   </div>
-                  <Link
-                    href={ROUTES.CHALLENGE_DETAIL(challenge.id)}
-                    className="ml-4 text-primary-600 hover:text-primary-700 font-medium"
-                  >
-                    View Details →
-                  </Link>
+                  <div className="ml-4 flex flex-col gap-2">
+                    <Link
+                      href={`/dashboard/mentor/challenges/${challenge.id}`}
+                      className="text-primary-600 hover:text-primary-700 font-medium text-sm"
+                    >
+                      View Students →
+                    </Link>
+                    <Link
+                      href={ROUTES.CHALLENGE_DETAIL(challenge.id)}
+                      className="text-gray-600 hover:text-gray-900 text-sm"
+                    >
+                      Public Page →
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}

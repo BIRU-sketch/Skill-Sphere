@@ -14,13 +14,19 @@ import { db } from './config';
 import { Enrollment } from '@/types';
 
 /**
- * Enroll student in a challenge
+ * Enroll student in a challenge with application
  */
 export async function enrollInChallenge(
   challengeId: string,
   challengeTitle: string,
   studentId: string,
-  studentName: string
+  studentName: string,
+  studentEmail: string,
+  applicationData: {
+    applicationEssay: string;
+    whyJoin: string;
+    experience: string;
+  }
 ): Promise<string> {
   try {
     // Check if already enrolled
@@ -34,7 +40,11 @@ export async function enrollInChallenge(
       challengeTitle,
       studentId,
       studentName,
+      studentEmail,
       status: 'enrolled',
+      applicationEssay: applicationData.applicationEssay,
+      whyJoin: applicationData.whyJoin,
+      experience: applicationData.experience,
       enrolledAt: Timestamp.now(),
     };
 

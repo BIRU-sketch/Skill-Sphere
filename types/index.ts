@@ -54,7 +54,11 @@ export interface Enrollment {
   challengeTitle: string;
   studentId: string;
   studentName: string;
+  studentEmail: string;
   status: EnrollmentStatus;
+  applicationEssay: string;
+  whyJoin: string;
+  experience: string;
   enrolledAt: Timestamp;
   submittedAt?: Timestamp;
   reviewedAt?: Timestamp;

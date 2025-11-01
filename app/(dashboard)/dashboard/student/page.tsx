@@ -27,9 +27,25 @@ export default function StudentDashboardPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user?.displayName}!</h1>
-        <p className="text-gray-600 mt-2">Track your progress and continue learning</p>
+      {/* Header with Role Badge */}
+      <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg shadow-lg p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <h1 className="text-3xl font-bold">Welcome back, {user?.displayName}!</h1>
+              <span className="px-3 py-1 bg-white bg-opacity-20 rounded-full text-sm font-medium">
+                Student
+              </span>
+            </div>
+            <p className="text-blue-100">Track your progress and continue learning</p>
+          </div>
+          <Link
+            href={ROUTES.CHALLENGES}
+            className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 transition font-semibold"
+          >
+            Browse Challenges
+          </Link>
+        </div>
       </div>
 
       {/* Stats */}

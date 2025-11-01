@@ -23,18 +23,26 @@ export default function MentorDashboardPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-between items-start">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Mentor Dashboard</h1>
-          <p className="text-gray-600 mt-2">Manage your challenges and review student submissions</p>
+      {/* Header with Role Badge */}
+      <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg shadow-lg p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <h1 className="text-3xl font-bold">Welcome, {user?.displayName}!</h1>
+              <span className="px-3 py-1 bg-white bg-opacity-20 rounded-full text-sm font-medium">
+                Mentor
+              </span>
+            </div>
+            <p className="text-purple-100">Manage your challenges and review student applications</p>
+          </div>
+          <Link
+            href={ROUTES.CREATE_CHALLENGE}
+            className="bg-white text-purple-600 px-6 py-3 rounded-lg hover:bg-purple-50 transition font-semibold flex items-center gap-2"
+          >
+            <FiPlus className="w-5 h-5" />
+            Create Challenge
+          </Link>
         </div>
-        <Link
-          href={ROUTES.CREATE_CHALLENGE}
-          className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition flex items-center gap-2"
-        >
-          <FiPlus className="w-5 h-5" />
-          Create Challenge
-        </Link>
       </div>
 
       {/* Stats */}

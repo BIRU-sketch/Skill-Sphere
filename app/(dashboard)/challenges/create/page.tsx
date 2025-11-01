@@ -29,10 +29,22 @@ export default function CreateChallengePage() {
 
   if (!isMentor) {
     return (
-      <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-900">
-          Only mentors can create challenges
-        </h2>
+      <div className="max-w-md mx-auto text-center py-12">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-8">
+          <div className="text-red-600 text-6xl mb-4">🚫</div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Access Denied
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Only mentors can create challenges. You are currently signed in as a {user?.role}.
+          </p>
+          <button
+            onClick={() => router.back()}
+            className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 transition"
+          >
+            Go Back
+          </button>
+        </div>
       </div>
     );
   }

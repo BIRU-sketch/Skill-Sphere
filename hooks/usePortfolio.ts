@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Portfolio } from '@/types';
 import { getPortfolio } from '@/lib/firebase/portfolio-service';
 
@@ -12,26 +12,27 @@ export function usePortfolio(studentId: string | undefined) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchPortfolio() {
-      if (!studentId) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        setLoading(true);
-        const data = await getPortfolio(studentId);
-        setPortfolio(data);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
+  const fetchPortfolio = useCallback(async () => {
+    if (!studentId) {
+      setLoading(false);
+      return;
     }
 
-    fetchPortfolio();
+    try {
+      setLoading(true);
+      const data = await getPortfolio(studentId);
+      setPortfolio(data);
+      setError(null);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }, [studentId]);
+
+  useEffect(() => {
+    fetchPortfolio();
+  }, [fetchPortfolio]);
 
   return { portfolio, loading, error, refetch: fetchPortfolio };
 }

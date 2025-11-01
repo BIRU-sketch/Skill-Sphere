@@ -1,0 +1,137 @@
+SKILL-SPHERE PROJECT FILE STRUCTURE
+===================================
+
+Root Configuration Files
+------------------------
+├── .eslintrc.json              # ESLint configuration
+├── .gitignore                  # Git ignore rules
+├── CONTRIBUTING.md             # Contribution guidelines
+├── FILE_STRUCTURE.txt          # This file
+├── PROJECT_STRUCTURE.md        # Detailed project documentation
+├── README.md                   # Project overview and quick start
+├── SETUP.md                    # Detailed setup instructions
+├── firestore.rules             # Firestore security rules
+├── middleware.ts               # Next.js middleware
+├── next.config.js              # Next.js configuration
+├── package.json                # Dependencies and scripts
+├── postcss.config.js           # PostCSS configuration
+├── storage.rules               # Firebase Storage security rules
+├── tailwind.config.js          # Tailwind CSS configuration
+└── tsconfig.json               # TypeScript configuration
+
+App Directory (Next.js 14 App Router)
+--------------------------------------
+app/
+├── (auth)/                     # Authentication routes (no layout)
+│   ├── login/
+│   │   └── page.tsx           # Login page
+│   └── register/
+│       └── page.tsx           # Registration page
+│
+├── (dashboard)/                # Protected dashboard routes
+│   ├── layout.tsx             # Dashboard layout with auth check
+│   ├── challenges/
+│   │   ├── page.tsx          # Browse all challenges
+│   │   ├── create/
+│   │   │   └── page.tsx      # Create challenge (mentor only)
+│   │   └── [id]/
+│   │       └── page.tsx      # Challenge detail page
+│   ├── dashboard/
+│   │   ├── certificates/
+│   │   │   └── page.tsx      # Student certificates
+│   │   ├── mentor/
+│   │   │   └── page.tsx      # Mentor dashboard
+│   │   ├── profile/
+│   │   │   └── page.tsx      # Edit profile
+│   │   └── student/
+│   │       └── page.tsx      # Student dashboard
+│   └── portfolio/
+│       └── [id]/
+│           └── page.tsx      # Public portfolio page
+│
+├── globals.css                # Global styles and animations
+├── layout.tsx                 # Root layout with AuthProvider
+└── page.tsx                   # Landing page
+
+Components Directory
+--------------------
+components/
+├── CertificateGenerator.tsx   # Generate and download certificates
+├── ChallengeCard.tsx          # Reusable challenge card component
+├── LoadingSpinner.tsx         # Loading spinner component
+└── Navbar.tsx                 # Main navigation bar
+
+Contexts Directory
+------------------
+contexts/
+└── AuthContext.tsx            # Authentication context provider
+
+Hooks Directory
+---------------
+hooks/
+├── useChallenge.ts            # Challenge data fetching hooks
+├── useEnrollment.ts           # Enrollment management hooks
+├── usePortfolio.ts            # Portfolio data fetching hook
+└── useUser.ts                 # User data and auth state hook
+
+Library Directory
+-----------------
+lib/
+├── firebase/                  # Firebase services
+│   ├── admin.ts              # Firebase Admin SDK config
+│   ├── auth-service.ts       # Authentication operations
+│   ├── certificate-service.ts # Certificate generation
+│   ├── challenge-service.ts  # Challenge CRUD operations
+│   ├── config.ts             # Firebase client config
+│   ├── enrollment-service.ts # Enrollment management
+│   ├── portfolio-service.ts  # Portfolio operations
+│   ├── schema.md             # Firestore database schema
+│   └── submission-service.ts # Submission handling
+│
+├── utils/                    # Utility functions
+│   ├── cn.ts                # Tailwind class name merger
+│   ├── date.ts              # Date formatting utilities
+│   └── validation.ts        # Zod validation schemas
+│
+└── constants.ts              # App-wide constants
+
+Types Directory
+---------------
+types/
+└── index.ts                  # All TypeScript type definitions
+
+Public Directory
+----------------
+public/
+└── README.md                 # Public assets documentation
+
+TOTAL FILE COUNT
+----------------
+- Configuration files: 13
+- App pages: 12
+- Components: 4
+- Contexts: 1
+- Hooks: 4
+- Firebase services: 8
+- Utilities: 3
+- Types: 1
+- Documentation: 4
+
+Total: 50+ organized files
+
+KEY FEATURES
+------------
+✓ Next.js 14 App Router with route groups
+✓ Firebase Authentication & Firestore
+✓ TypeScript for type safety
+✓ Tailwind CSS for styling
+✓ Role-based access (Mentor/Student)
+✓ Challenge management system
+✓ Certificate generation (PDF)
+✓ Auto-updating portfolios
+✓ Secure Firestore rules
+✓ Responsive design
+✓ Form validation with Zod
+✓ Custom React hooks
+✓ Context API for state management
+

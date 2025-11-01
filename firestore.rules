@@ -1,0 +1,89 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user owns the document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Helper function to get user role
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+    
+    // Helper function to check if user is a mentor
+    function isMentor() {
+      return isAuthenticated() && getUserRole() == 'mentor';
+    }
+    
+    // Helper function to check if user is a student
+    function isStudent() {
+      return isAuthenticated() && getUserRole() == 'student';
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+    
+    // Challenges collection
+    match /challenges/{challengeId} {
+      allow read: if isAuthenticated();
+      allow create: if isMentor();
+      allow update: if isAuthenticated() && 
+                       resource.data.mentorId == request.auth.uid;
+      allow delete: if isAuthenticated() && 
+                       resource.data.mentorId == request.auth.uid;
+    }
+    
+    // Enrollments collection
+    match /enrollments/{enrollmentId} {
+      allow read: if isAuthenticated() && 
+                     (resource.data.studentId == request.auth.uid ||
+                      get(/databases/$(database)/documents/challenges/$(resource.data.challengeId)).data.mentorId == request.auth.uid);
+      allow create: if isStudent() && request.resource.data.studentId == request.auth.uid;
+      allow update: if isAuthenticated() &&
+                       (resource.data.studentId == request.auth.uid ||
+                        get(/databases/$(database)/documents/challenges/$(resource.data.challengeId)).data.mentorId == request.auth.uid);
+      allow delete: if resource.data.studentId == request.auth.uid;
+    }
+    
+    // Submissions collection
+    match /submissions/{submissionId} {
+      allow read: if isAuthenticated() &&
+                     (resource.data.studentId == request.auth.uid ||
+                      get(/databases/$(database)/documents/challenges/$(resource.data.challengeId)).data.mentorId == request.auth.uid);
+      allow create: if isStudent() && request.resource.data.studentId == request.auth.uid;
+      allow update: if isAuthenticated() &&
+                       (resource.data.studentId == request.auth.uid ||
+                        get(/databases/$(database)/documents/challenges/$(resource.data.challengeId)).data.mentorId == request.auth.uid);
+      allow delete: if resource.data.studentId == request.auth.uid;
+    }
+    
+    // Certificates collection
+    match /certificates/{certificateId} {
+      allow read: if true; // Public for verification
+      allow create: if isMentor();
+      allow update: if false; // Certificates are immutable
+      allow delete: if false; // Certificates cannot be deleted
+    }
+    
+    // Portfolios collection
+    match /portfolios/{portfolioId} {
+      allow read: if true; // Public portfolios
+      allow create: if isOwner(portfolioId);
+      allow update: if isOwner(portfolioId);
+      allow delete: if isOwner(portfolioId);
+    }
+  }
+}
+

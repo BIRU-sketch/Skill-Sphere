@@ -16,16 +16,23 @@ export default function MentorChallengeDetailPage() {
   const { challenge, loading: challengeLoading } = useChallenge(challengeId);
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>('all');
 
   useEffect(() => {
     async function fetchEnrollments() {
+      console.log('=== Fetching enrollments for challenge ===');
+      console.log('Challenge ID:', challengeId);
+      
       try {
         setLoading(true);
+        setError(null);
         const data = await getEnrollmentsByChallenge(challengeId);
+        console.log('Enrollments fetched successfully:', data.length);
         setEnrollments(data);
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error fetching enrollments:', error);
+        setError(error.message || 'Failed to fetch enrollments');
       } finally {
         setLoading(false);
       }
@@ -67,6 +74,30 @@ export default function MentorChallengeDetailPage() {
 
   return (
     <div className="space-y-6">
+      {/* Debug Info */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <p className="text-sm text-blue-800">
+          <strong>Debug Info:</strong> Challenge ID: {challengeId} | 
+          Enrollments Count: {enrollments.length} | 
+          Loading: {loading ? 'Yes' : 'No'} |
+          {error && ` Error: ${error}`}
+        </p>
+        <p className="text-xs text-blue-600 mt-1">
+          Check browser console (F12) for detailed logs
+        </p>
+      </div>
+
+      {/* Error Display */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <h3 className="text-red-800 font-semibold mb-2">Error Loading Students</h3>
+          <p className="text-red-600 text-sm">{error}</p>
+          <p className="text-red-600 text-xs mt-2">
+            Make sure Firestore rules allow reading enrollments. Check console for details.
+          </p>
+        </div>
+      )}
+
       {/* Challenge Header */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex justify-between items-start">

@@ -75,17 +75,38 @@ export async function getEnrollment(enrollmentId: string): Promise<Enrollment | 
  */
 export async function getEnrollmentsByStudent(studentId: string): Promise<Enrollment[]> {
   try {
+    console.log('Fetching enrollments for student:', studentId);
+    
+    // Simplified query without orderBy to avoid composite index requirement
     const q = query(
       collection(db, 'enrollments'),
-      where('studentId', '==', studentId),
-      orderBy('enrolledAt', 'desc')
+      where('studentId', '==', studentId)
     );
+    
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => ({
+    console.log('Student enrollments found:', querySnapshot.docs.length);
+    
+    if (querySnapshot.empty) {
+      console.warn('No enrollments found for this student');
+      return [];
+    }
+    
+    const enrollments = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
     })) as Enrollment[];
+    
+    // Sort by enrolledAt on the client side
+    enrollments.sort((a, b) => {
+      const aTime = a.enrolledAt?.toMillis() || 0;
+      const bTime = b.enrolledAt?.toMillis() || 0;
+      return bTime - aTime; // Descending order (newest first)
+    });
+    
+    console.log('Total student enrollments returned:', enrollments.length);
+    return enrollments;
   } catch (error: any) {
+    console.error('Error in getEnrollmentsByStudent:', error);
     throw new Error(error.message || 'Failed to get student enrollments');
   }
 }
@@ -95,17 +116,48 @@ export async function getEnrollmentsByStudent(studentId: string): Promise<Enroll
  */
 export async function getEnrollmentsByChallenge(challengeId: string): Promise<Enrollment[]> {
   try {
+    console.log('Fetching enrollments for challenge:', challengeId);
+    
+    // Simplified query without orderBy to avoid composite index requirement
     const q = query(
       collection(db, 'enrollments'),
-      where('challengeId', '==', challengeId),
-      orderBy('enrolledAt', 'desc')
+      where('challengeId', '==', challengeId)
     );
+    
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as Enrollment[];
+    console.log('Enrollments query snapshot size:', querySnapshot.size);
+    console.log('Enrollments found:', querySnapshot.docs.length);
+    
+    if (querySnapshot.empty) {
+      console.warn('No enrollments found for this challenge');
+      return [];
+    }
+    
+    const enrollments = querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      console.log('Enrollment data:', { id: doc.id, ...data });
+      return {
+        id: doc.id,
+        ...data,
+      } as Enrollment;
+    });
+    
+    // Sort by enrolledAt on the client side
+    enrollments.sort((a, b) => {
+      const aTime = a.enrolledAt?.toMillis() || 0;
+      const bTime = b.enrolledAt?.toMillis() || 0;
+      return bTime - aTime; // Descending order (newest first)
+    });
+    
+    console.log('Total enrollments returned:', enrollments.length);
+    return enrollments;
   } catch (error: any) {
+    console.error('Error in getEnrollmentsByChallenge:', error);
+    console.error('Error details:', {
+      message: error.message,
+      code: error.code,
+      challengeId: challengeId
+    });
     throw new Error(error.message || 'Failed to get challenge enrollments');
   }
 }

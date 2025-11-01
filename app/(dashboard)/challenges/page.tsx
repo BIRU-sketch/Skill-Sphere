@@ -7,7 +7,7 @@ import { CHALLENGE_CATEGORIES, CHALLENGE_DIFFICULTIES, ROUTES } from '@/lib/cons
 import { FiSearch } from 'react-icons/fi';
 
 export default function ChallengesPage() {
-  const { challenges, loading } = useActiveChallenges();
+  const { challenges, loading, error } = useActiveChallenges();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
@@ -24,6 +24,18 @@ export default function ChallengesPage() {
     return (
       <div className="flex items-center justify-center py-12">
         <div className="spinner"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md">
+          <h3 className="text-red-800 font-semibold mb-2">Error Loading Challenges</h3>
+          <p className="text-red-600 text-sm">{error}</p>
+          <p className="text-red-600 text-xs mt-2">Check the browser console for more details.</p>
+        </div>
       </div>
     );
   }

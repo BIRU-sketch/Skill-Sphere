@@ -50,9 +50,12 @@ export function useActiveChallenges() {
     async function fetchChallenges() {
       try {
         setLoading(true);
+        setError(null);
         const data = await getActiveChallenges();
+        console.log('Fetched challenges:', data); // Debug log
         setChallenges(data);
       } catch (err: any) {
+        console.error('Error fetching challenges:', err); // Debug log
         setError(err.message);
       } finally {
         setLoading(false);

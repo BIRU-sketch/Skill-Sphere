@@ -12,9 +12,10 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.uid == userId;
     }
     
-    // Helper function to get user role
+    // Helper function to get user role (with null check)
     function getUserRole() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+      let userDoc = get(/databases/$(database)/documents/users/$(request.auth.uid));
+      return userDoc != null && userDoc.data != null ? userDoc.data.role : null;
     }
     
     // Helper function to check if user is a mentor
@@ -27,6 +28,12 @@ service cloud.firestore {
       return isAuthenticated() && getUserRole() == 'student';
     }
     
+    // Helper function to check if user has any valid role
+    function hasRole() {
+      let role = getUserRole();
+      return role == 'mentor' || role == 'student' || role == 'ctf-participant' || role == 'ctf-host' || role == 'admin';
+    }
+    
     // Users collection
     match /users/{userId} {
       allow read: if isAuthenticated();
@@ -37,12 +44,16 @@ service cloud.firestore {
     
     // Challenges collection
     match /challenges/{challengeId} {
+      // Allow any authenticated user to read challenges
       allow read: if isAuthenticated();
-      allow create: if isMentor();
+      // Only mentors can create challenges
+      allow create: if isAuthenticated() && (isMentor() || getUserRole() == 'admin');
+      // Only the challenge owner or admin can update
       allow update: if isAuthenticated() && 
-                       resource.data.mentorId == request.auth.uid;
+                       (resource.data.mentorId == request.auth.uid || getUserRole() == 'admin');
+      // Only the challenge owner or admin can delete
       allow delete: if isAuthenticated() && 
-                       resource.data.mentorId == request.auth.uid;
+                       (resource.data.mentorId == request.auth.uid || getUserRole() == 'admin');
     }
     
     // Enrollments collection

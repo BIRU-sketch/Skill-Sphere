@@ -65,17 +65,48 @@ export async function getChallenge(challengeId: string): Promise<Challenge | nul
  */
 export async function getActiveChallenges(): Promise<Challenge[]> {
   try {
+    console.log('Fetching active challenges from Firestore...');
+    
+    // Simplified query without orderBy to avoid composite index requirement
+    // We'll sort on the client side instead
     const q = query(
       collection(db, 'challenges'),
-      where('status', '==', 'active'),
-      orderBy('createdAt', 'desc')
+      where('status', '==', 'active')
     );
+    
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as Challenge[];
+    console.log('Query snapshot size:', querySnapshot.size);
+    console.log('Documents found:', querySnapshot.docs.length);
+    
+    if (querySnapshot.empty) {
+      console.warn('No active challenges found in Firestore');
+      return [];
+    }
+    
+    const challenges = querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      console.log('Challenge data:', { id: doc.id, ...data });
+      return {
+        id: doc.id,
+        ...data,
+      } as Challenge;
+    });
+    
+    console.log('Total challenges fetched:', challenges.length);
+    
+    // Sort by createdAt on the client side
+    return challenges.sort((a, b) => {
+      const aTime = a.createdAt?.toMillis() || 0;
+      const bTime = b.createdAt?.toMillis() || 0;
+      return bTime - aTime; // Descending order (newest first)
+    });
   } catch (error: any) {
+    console.error('Error in getActiveChallenges:', error);
+    console.error('Error details:', {
+      message: error.message,
+      code: error.code,
+      stack: error.stack
+    });
     throw new Error(error.message || 'Failed to get challenges');
   }
 }
@@ -85,17 +116,25 @@ export async function getActiveChallenges(): Promise<Challenge[]> {
  */
 export async function getChallengesByMentor(mentorId: string): Promise<Challenge[]> {
   try {
+    // Simplified query without orderBy to avoid composite index requirement
     const q = query(
       collection(db, 'challenges'),
-      where('mentorId', '==', mentorId),
-      orderBy('createdAt', 'desc')
+      where('mentorId', '==', mentorId)
     );
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => ({
+    const challenges = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
     })) as Challenge[];
+    
+    // Sort by createdAt on the client side
+    return challenges.sort((a, b) => {
+      const aTime = a.createdAt?.toMillis() || 0;
+      const bTime = b.createdAt?.toMillis() || 0;
+      return bTime - aTime; // Descending order (newest first)
+    });
   } catch (error: any) {
+    console.error('Error in getChallengesByMentor:', error);
     throw new Error(error.message || 'Failed to get mentor challenges');
   }
 }

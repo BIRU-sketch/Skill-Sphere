@@ -24,15 +24,19 @@ export async function createChallenge(
   mentorName: string
 ): Promise<string> {
   try {
-    const challengeData = {
+    const challengeData: any = {
       ...data,
       mentorId,
       mentorName,
       status: 'active',
-      deadline: data.deadline ? Timestamp.fromDate(data.deadline) : undefined,
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
     };
+
+    // Only add deadline if it exists
+    if (data.deadline) {
+      challengeData.deadline = Timestamp.fromDate(data.deadline);
+    }
 
     const docRef = await addDoc(collection(db, 'challenges'), challengeData);
     return docRef.id;

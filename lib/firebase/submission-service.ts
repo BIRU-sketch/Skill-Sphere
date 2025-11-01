@@ -37,17 +37,21 @@ export async function submitWork(
       }
     }
 
-    const submissionData = {
+    const submissionData: any = {
       enrollmentId,
       challengeId,
       studentId,
       studentName,
       submissionUrl: data.submissionUrl,
       description: data.description,
-      fileUrls: fileUrls.length > 0 ? fileUrls : undefined,
       status: 'pending',
       submittedAt: Timestamp.now(),
     };
+
+    // Only add fileUrls if there are any
+    if (fileUrls.length > 0) {
+      submissionData.fileUrls = fileUrls;
+    }
 
     const docRef = await addDoc(collection(db, 'submissions'), submissionData);
     return docRef.id;
